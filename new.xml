@@ -1,0 +1,287 @@
+<?xml-stylesheet href="xsltforms/xsltforms.xsl" type="text/xsl"?><!-- Esta instruccion habilita el uso de XSLTForms --><?xsltforms-options debug="no"?><!-- Se deben declarar los namespaces de XHTML, XForms y XML Events -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:i="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+        <style>
+            .xforms-group{
+				padding-left: 1em;
+			}
+
+			.xforms-group-label{
+				font-weight: bold;
+			}
+			body {
+				font-family: Verdana; 
+			}
+            
+        	.xforms-control {
+				display:block; 
+				margin:2ex; 
+			}
+
+        </style>
+        
+<!-- Modelo del XForms, pueden existir uno o muchos -->
+        <xf:model>
+<!-- Los elementos XML a editar se representan como xf:instance cada uno -->
+            <xf:instance id="ins" src="blank-invoice.xq"/>
+
+<!-- submission indica el destino dond ese enviara un xf:instance -->
+            <xf:submission id="guardar" method="PUT" replace="none">
+                <xf:resource value="concat('data/Invoice-', /i:Invoice/cbc:ID, '.xml')"/>
+                <xf:message ev:event="xforms-submit-done"> Factura Creada </xf:message>
+                <xf:message ev:event="xforms-submit-error"> Factura No Creada </xf:message>
+            </xf:submission>
+            <xf:bind ref="/i:Invoice/cac:Delivery/cbc:ActualDeliveryDate" type="xs:date"/>
+            <xf:bind ref="/i:Invoice/cbc:IssueDate" type="xs:date"/>
+            <xf:bind ref="/i:Invoice/cac:InvoicePeriod/cbc:StartDate" type="xs:date"/>
+            <xf:bind ref="/i:Invoice/cac:InvoicePeriod/cbc:EndDate" type="xs:date"/>
+        </xf:model>
+    </head>
+    <body>
+<!-- todos los controles visuales deben tener un atributo ref="" que indica el nodo XML que editan -->
+        <h1>Despacho</h1>
+        <div>
+            <xf:trigger>
+                <xf:label>General</xf:label>
+                <xf:toggle case="general" ev:event="DOMActivate"/>
+            </xf:trigger>
+            <xf:trigger>
+                <xf:label>Proveedor</xf:label>
+                <xf:toggle case="proveedor" ev:event="DOMActivate"/>
+            </xf:trigger>
+            <xf:trigger>
+                <xf:label>Cliente</xf:label>
+                <xf:toggle case="cliente" ev:event="DOMActivate"/>
+            </xf:trigger>
+            <xf:trigger>
+                <xf:label>Entrega</xf:label>
+                <xf:toggle case="entrega" ev:event="DOMActivate"/>
+            </xf:trigger>
+            <xf:trigger>
+                <xf:label>Detalles</xf:label>
+                <xf:toggle case="detalles" ev:event="DOMActivate"/>
+            </xf:trigger>
+        </div>
+        <xf:switch id="paginas">
+            <xf:case id="general">
+                <h2>Datos Generales</h2>
+                <xf:group ref="/i:Invoice">
+                    <xf:input ref="cbc:UBLVersionID">
+                        <xf:label>UBLVersionID: </xf:label>
+                    </xf:input>
+                    <xf:input ref="cbc:ID">
+                        <xf:label>ID: </xf:label>
+                    </xf:input>
+                    <xf:input ref="cbc:IssueDate">
+                        <xf:label>IssueDate: </xf:label>
+                    </xf:input>
+                    <xf:input ref="cbc:InvoiceTypeCode">
+                        <xf:label>InvoiceTypeCode: </xf:label>
+                    </xf:input>
+                    <xf:textarea ref="cbc:Note">
+                        <xf:label>Note: </xf:label>
+                    </xf:textarea>
+                    <xf:group ref="cac:InvoicePeriod">
+                        <xf:label>InvoicePeriod</xf:label>
+                        <xf:input ref="cbc:StartDate">
+                            <xf:label>StartDate: </xf:label>
+                        </xf:input>
+                        <xf:input ref="cbc:EndDate">
+                            <xf:label>EndDate: </xf:label>
+                        </xf:input>
+                    </xf:group>
+                    <xf:group ref="cac:OrderReference">
+                        <xf:label>OrderReference</xf:label>
+                        <xf:input ref="cbc:ID">
+                            <xf:label>ID: </xf:label>
+                        </xf:input>
+                    </xf:group>
+                </xf:group>
+            </xf:case>
+            <xf:case id="proveedor">
+                <h2>Datos del Proveedor</h2>
+                <xf:group ref="cac:AccountingSupplierParty">
+                    <xf:label>AccountingSupplierParty</xf:label>
+                    <xf:group ref="cac:Party">
+                        <xf:label>Party</xf:label>
+                        <xf:input ref="cac:PartyName">
+                            <xf:label>PartyName</xf:label>
+                        </xf:input>
+                        <xf:group ref="cac:PostalAddress">
+                            <xf:label>PostalAddress</xf:label>
+                            <xf:input ref="cbc:StreetName">
+                                <xf:label>StreetName</xf:label>
+                            </xf:input>
+                            <xf:input ref="cbc:PostalZone">
+                                <xf:label>PostalZone</xf:label>
+                            </xf:input>
+                            <xf:group ref="cac:Country">
+                                <xf:label>Country</xf:label>
+                                <xf:input ref="cbc:IdentificationCode">
+                                    <xf:label>IdentificationCode</xf:label>
+                                </xf:input>
+                            </xf:group>
+                            <xf:group ref="cac:AddressLine">
+                                <xf:label>AddressLine</xf:label>
+                                <xf:input ref="cbc:Line">
+                                    <xf:label>Line</xf:label>
+                                </xf:input>
+                            </xf:group>
+                            <xf:group ref="cac:Country">
+                                <xf:label>Country</xf:label>
+                                <xf:input ref="cbc:IdentificationCode">
+                                    <xf:label>IdentificationCode</xf:label>
+                                </xf:input>
+                            </xf:group>
+                        </xf:group>
+                        <xf:group ref="cac:Contact">
+                            <xf:label>Contact</xf:label>
+                            <xf:input ref="cbc:Telephone">
+                                <xf:label>Telephone</xf:label>
+                            </xf:input>
+                            <xf:input ref="cbc:Telefax">
+                                <xf:label>Telefax</xf:label>
+                            </xf:input>
+                            <xf:input ref="cbc:ElectronicMail">
+                                <xf:label>ElectronicMail</xf:label>
+                            </xf:input>
+                        </xf:group>
+                    </xf:group>
+                </xf:group>
+            </xf:case>
+            <xf:case id="cliente">
+                <h2>Datos del Cliente</h2>
+                <xf:group ref="cac:AccountingCustomerParty">
+                    <xf:label>AccountingCustomerParty</xf:label>
+                    <xf:group ref="cac:Party">
+                        <xf:label>Party</xf:label>
+                        <xf:input ref="cac:PartyName">
+                            <xf:label>PartyName</xf:label>
+                        </xf:input>
+                        <xf:group ref="cac:PostalAddress">
+                            <xf:label>PostalAddress</xf:label>
+                            <xf:input ref="cbc:StreetName">
+                                <xf:label>StreetName</xf:label>
+                            </xf:input>
+                            <xf:input ref="cbc:PostalZone">
+                                <xf:label>PostalZone</xf:label>
+                            </xf:input>
+                            <xf:group ref="cac:Country">
+                                <xf:label>Country</xf:label>
+                                <xf:input ref="cbc:IdentificationCode">
+                                    <xf:label>IdentificationCode</xf:label>
+                                </xf:input>
+                            </xf:group>
+                            <xf:group ref="cac:AddressLine">
+                                <xf:label>AddressLine</xf:label>
+                                <xf:input ref="cbc:Line">
+                                    <xf:label>Line</xf:label>
+                                </xf:input>
+                            </xf:group>
+                            <xf:group ref="cac:Country">
+                                <xf:label>Country</xf:label>
+                                <xf:input ref="cbc:IdentificationCode">
+                                    <xf:label>IdentificationCode</xf:label>
+                                </xf:input>
+                            </xf:group>
+                        </xf:group>
+                        <xf:group ref="cac:Contact">
+                            <xf:label>Contact</xf:label>
+                            <xf:input ref="cbc:Telephone">
+                                <xf:label>Telephone</xf:label>
+                            </xf:input>
+                            <xf:input ref="cbc:Telefax">
+                                <xf:label>Telefax</xf:label>
+                            </xf:input>
+                            <xf:input ref="cbc:ElectronicMail">
+                                <xf:label>ElectronicMail</xf:label>
+                            </xf:input>
+                        </xf:group>
+                    </xf:group>
+                </xf:group>
+            </xf:case>
+            <xf:case id="entrega">
+                <h2>Datos de la Entrega</h2>
+                <xf:group ref="cac:Delivery">
+                    <xf:label>Delivery</xf:label>
+                    <xf:input ref="cbc:ActualDeliveryDate">
+                        <xf:label>ActualDeliveryDate: </xf:label>
+                    </xf:input>
+                    <xf:group ref="cac:DeliveryLocation">
+                        <xf:label>DeliveryLocation</xf:label>
+                        <xf:group ref="cac:Address">
+                            <xf:label>Address</xf:label>
+                            <xf:input ref="cbc:StreetName">
+                                <xf:label>StreetName</xf:label>
+                            </xf:input>
+                            <xf:input ref="cbc:PostalZone">
+                                <xf:label>PostalZone</xf:label>
+                            </xf:input>
+                            <xf:group ref="cac:Country">
+                                <xf:label>Country</xf:label>
+                                <xf:input ref="cbc:IdentificationCode">
+                                    <xf:label>IdentificationCode</xf:label>
+                                </xf:input>
+                            </xf:group>
+                        </xf:group>
+                    </xf:group>
+                </xf:group>
+                <xf:group ref="cac:TaxTotal">
+                    <xf:label>TaxTotal</xf:label>
+                    <xf:input ref="cbc:TaxAmount">
+                        <xf:label>TaxAmount</xf:label>
+                    </xf:input>
+                </xf:group>
+            </xf:case>
+            <xf:case id="detalles">
+                <h2>Detalles de la Factura</h2>
+                <xf:repeat ref="cac:InvoiceLine">
+                    <xf:label>InvoiceLine</xf:label>
+                    <xf:trigger>
+                        <xf:label>+</xf:label>
+                        <xf:insert ev:event="DOMActivate" ref="."/>
+                    </xf:trigger>
+                    <xf:trigger>
+                        <xf:label>-</xf:label>
+                        <xf:delete ev:event="DOMActivate" ref="."/>
+                    </xf:trigger>
+                    <xf:input ref="cbc:ID">
+                        <xf:label>ID</xf:label>
+                    </xf:input>
+                    <xf:input ref="cbc:Note">
+                        <xf:label>Note</xf:label>
+                    </xf:input>
+                    <xf:input ref="cbc:InvoicedQuantity">
+                        <xf:label>InvoicedQuantity</xf:label>
+                    </xf:input>
+                    <xf:group ref="cac:TaxTotal">
+                        <xf:label>TaxTotal</xf:label>
+                        <xf:input ref="cbc:TaxAmount">
+                            <xf:label>TaxAmount</xf:label>
+                        </xf:input>
+                    </xf:group>
+                    <xf:group ref="cac:Item">
+                        <xf:label>Item</xf:label>
+                        <xf:input ref="cbc:Name">
+                            <xf:label>Name</xf:label>
+                        </xf:input>
+                    </xf:group>
+                    <xf:group ref="cac:Price">
+                        <xf:label>Price</xf:label>
+                        <xf:input ref="cbc:PriceAmount">
+                            <xf:label>PriceAmount</xf:label>
+                        </xf:input>
+                        <xf:input ref="cbc:BaseQuantity">
+                            <xf:label>BaseQuantity</xf:label>
+                        </xf:input>
+                    </xf:group>
+                </xf:repeat>
+            </xf:case>
+        </xf:switch>
+        
+<!-- xf:submit se usa para mostrar un botón que ejecuta un xf:submission -->
+        <xf:submit submission="guardar">
+            <xf:label>Guardar</xf:label>
+        </xf:submit>
+    </body>
+</html>

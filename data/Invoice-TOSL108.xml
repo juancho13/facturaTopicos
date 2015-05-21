@@ -1,0 +1,82 @@
+<i:Invoice xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:i="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2">
+    <cbc:UBLVersionID>2.1</cbc:UBLVersionID>
+    <cbc:ID>TOSL108</cbc:ID>
+    <cbc:IssueDate>2009-12-15</cbc:IssueDate>
+    <cbc:InvoiceTypeCode listID="UN/ECE 1001 Subset" listAgencyID="6">380</cbc:InvoiceTypeCode>
+    <cbc:Note languageID="en">Ordered in our booth at the convention.</cbc:Note>
+    <cac:InvoicePeriod>
+        <cbc:StartDate>2009-11-01</cbc:StartDate>
+        <cbc:EndDate>2009-11-30</cbc:EndDate>
+    </cac:InvoicePeriod>
+    <cac:OrderReference>
+        <cbc:ID>123</cbc:ID>
+    </cac:OrderReference>
+    <cac:AccountingSupplierParty>
+        <cac:Party>
+            <cac:PartyName>
+                <cbc:Name>Salescompany ltd.</cbc:Name>
+            </cac:PartyName>
+            <cac:PostalAddress>
+                <cbc:StreetName>Main street</cbc:StreetName>
+                <cbc:PostalZone>54321</cbc:PostalZone>
+                <cac:Country>
+                    <cbc:IdentificationCode listID="ISO3166-1" listAgencyID="6">DK</cbc:IdentificationCode>
+                </cac:Country>
+            </cac:PostalAddress>
+            <cac:Contact>
+                <cbc:Telephone>4621230</cbc:Telephone>
+                <cbc:Telefax>4621231</cbc:Telefax>
+                <cbc:ElectronicMail>antonio@salescompany.dk</cbc:ElectronicMail>
+            </cac:Contact>
+        </cac:Party>
+    </cac:AccountingSupplierParty>
+    <cac:AccountingCustomerParty>
+        <cac:Party>
+            <cac:PartyName>
+                <cbc:Name>Buyercompany ltd</cbc:Name>
+            </cac:PartyName>
+            <cac:PostalAddress>
+                <cbc:StreetName>Anystreet</cbc:StreetName>
+                <cbc:PostalZone>101</cbc:PostalZone>
+                <cac:Country>
+                    <cbc:IdentificationCode listID="ISO3166-1" listAgencyID="6">BE</cbc:IdentificationCode>
+                </cac:Country>
+            </cac:PostalAddress>
+            <cac:Contact>
+                <cbc:Telephone>5121230</cbc:Telephone>
+                <cbc:Telefax>5121231</cbc:Telefax>
+                <cbc:ElectronicMail>john@buyercompany.eu</cbc:ElectronicMail>
+            </cac:Contact>
+        </cac:Party>
+    </cac:AccountingCustomerParty>
+    <cac:Delivery>
+        <cbc:ActualDeliveryDate>2009-12-15</cbc:ActualDeliveryDate>
+        <cac:DeliveryLocation>
+            <cac:Address>
+                <cbc:StreetName>Deliverystreet</cbc:StreetName>
+                <cbc:PostalZone>523427</cbc:PostalZone>
+                <cac:Country>
+                    <cbc:IdentificationCode>BE</cbc:IdentificationCode>
+                </cac:Country>
+            </cac:Address>
+        </cac:DeliveryLocation>
+    </cac:Delivery>
+    <cac:TaxTotal>
+        <cbc:TaxAmount currencyID="EUR">292.20</cbc:TaxAmount>
+    </cac:TaxTotal>
+    <cac:InvoiceLine>
+        <cbc:ID>1</cbc:ID>
+        <cbc:Note>Scratch on box</cbc:Note>
+        <cbc:InvoicedQuantity unitCode="C62">1</cbc:InvoicedQuantity>
+        <cac:TaxTotal>
+            <cbc:TaxAmount currencyID="EUR">254.6</cbc:TaxAmount>
+        </cac:TaxTotal>
+        <cac:Item>
+            <cbc:Name>Labtop computer</cbc:Name>
+        </cac:Item>
+        <cac:Price>
+            <cbc:PriceAmount currencyID="EUR">1273</cbc:PriceAmount>
+            <cbc:BaseQuantity unitCode="C62">1</cbc:BaseQuantity>
+        </cac:Price>
+    </cac:InvoiceLine>
+</i:Invoice>
